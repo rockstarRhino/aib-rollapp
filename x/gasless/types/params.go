@@ -19,7 +19,7 @@ const (
 var (
 	DefaultTankCreationLimit    = uint64(5)
 	DefaultMinimumGasDeposit    = sdk.NewCoins(sdk.NewCoin("aaib", sdkmath.NewInt(10_000_000)))
-	DefaultFeeBurningPercentage = sdkmath.NewInt(50)
+	DefaultFeeBurningPercentage = sdkmath.NewInt(0)
 )
 
 var (

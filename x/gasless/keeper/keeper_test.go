@@ -2,8 +2,8 @@ package keeper_test
 
 import (
 	"encoding/binary"
-	"testing"
 	"strings"
+	"testing"
 
 	"github.com/stretchr/testify/suite"
 

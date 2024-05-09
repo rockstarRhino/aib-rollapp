@@ -18,7 +18,7 @@ const (
 // gasless module's params default values
 var (
 	DefaultTankCreationLimit    = uint64(5)
-	DefaultMinimumGasDeposit    = sdk.NewCoins(sdk.NewCoin("ucmdx", sdkmath.NewInt(10_000_000)))
+	DefaultMinimumGasDeposit    = sdk.NewCoins(sdk.NewCoin("aaib", sdkmath.NewInt(10_000_000)))
 	DefaultFeeBurningPercentage = sdkmath.NewInt(50)
 )
 

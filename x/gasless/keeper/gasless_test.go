@@ -17,7 +17,7 @@ func (s *KeeperTestSuite) TestCreateGasTank() {
 	provider1 := s.addr(1)
 	provider1Tanks := []types.GasTank{}
 	for i := 0; i < int(params.TankCreationLimit); i++ {
-		tank := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000ucmdx")
+		tank := s.CreateNewGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 		provider1Tanks = append(provider1Tanks, tank)
 	}
 
@@ -28,37 +28,37 @@ func (s *KeeperTestSuite) TestCreateGasTank() {
 	}{
 		{
 			Name:   "error tank creation limit reached",
-			Msg:    *types.NewMsgCreateGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorMaxLimitReachedByProvider, " %d gas tanks already created by the provider", params.TankCreationLimit),
 		},
 		{
 			Name:   "error fee and deposit denom mismatch",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "uatom", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
-			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, " fee denom %s do not match gas depoit denom %s ", "uatom", "ucmdx"),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "uatom", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
+			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, " fee denom %s do not match gas depoit denom %s ", "uatom", "aaib"),
 		},
 		{
 			Name:   "error max tx count consumer is 0",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(1000), 0, sdkmath.NewInt(1000000), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "aaib", sdkmath.NewInt(1000), 0, sdkmath.NewInt(1000000), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
 			ExpErr: sdkerrors.Wrap(types.ErrorInvalidrequest, "max tx count per consumer must not be 0"),
 		},
 		{
 			Name:   "error max fee usage per tx should be positive",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(0), 123, sdkmath.NewInt(1000000), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "aaib", sdkmath.NewInt(0), 123, sdkmath.NewInt(1000000), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "max_fee_usage_per_tx should be positive"),
 		},
 		{
 			Name:   "error max fee usage per consumer should be positive",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(0), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "aaib", sdkmath.NewInt(123), 123, sdkmath.NewInt(0), []string{}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "max_fee_usage_per_consumer should be positive"),
 		},
 		{
 			Name:   "error atleast one txPath or contract is required",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{}, []string{}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "aaib", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{}, []string{}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "request should have atleast one tx path or contract address"),
 		},
 		{
 			Name:   "error deposit samller than required min deposit",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, sdk.NewCoin("ucmdx", sdk.NewInt(100))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "aaib", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, sdk.NewCoin("aaib", sdk.NewInt(100))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "minimum required deposit is %s", params.MinimumGasDeposit[0].String()),
 		},
 		{
@@ -68,17 +68,17 @@ func (s *KeeperTestSuite) TestCreateGasTank() {
 		},
 		{
 			Name:   "error invalid message type URL",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"random message type"}, []string{""}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "aaib", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"random message type"}, []string{""}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "invalid message - %s", "random message type"),
 		},
 		{
 			Name:   "error invalid contract address",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "aaib", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "invalid contract address - %s", "aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"),
 		},
 		{
 			Name:   "success gas tank creation",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "aaib", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, sdk.NewCoin("aaib", sdk.NewInt(100000000))),
 			ExpErr: nil,
 		},
 	}
@@ -131,10 +131,10 @@ func (s *KeeperTestSuite) TestCreateGasTank() {
 
 func (s *KeeperTestSuite) TestAuthorizeActors() {
 	provider1 := s.addr(1)
-	tank1 := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+	tank1 := s.CreateNewGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 
 	provider2 := s.addr(2)
-	inactiveTank := s.CreateNewGasTank(provider2, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+	inactiveTank := s.CreateNewGasTank(provider2, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 	inactiveTank.IsActive = false
 	s.keeper.SetGasTank(s.ctx, inactiveTank)
 
@@ -210,7 +210,7 @@ func (s *KeeperTestSuite) TestAuthorizeActors() {
 
 func (s *KeeperTestSuite) TestUpdateGasTankStatus() {
 	provider1 := s.addr(1)
-	tank1 := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+	tank1 := s.CreateNewGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 
 	testCases := []struct {
 		Name   string
@@ -267,10 +267,10 @@ func (s *KeeperTestSuite) TestUpdateGasTankStatus() {
 
 func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 	provider1 := s.addr(1)
-	tank1 := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+	tank1 := s.CreateNewGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 
 	provider2 := s.addr(2)
-	inactiveTank := s.CreateNewGasTank(provider2, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgCreatePool"}, []string{}, "100000000ucmdx")
+	inactiveTank := s.CreateNewGasTank(provider2, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.staking.v1beta1.MsgDelegate"}, []string{}, "100000000aaib")
 	inactiveTank.IsActive = false
 	s.keeper.SetGasTank(s.ctx, inactiveTank)
 
@@ -283,7 +283,7 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 			Name: "error invalid gas tank ID",
 			Msg: *types.NewMsgUpdateGasTankConfig(
 				12, provider1, sdk.NewInt(1000), 10, sdk.NewInt(1000000),
-				[]string{"/aib.liquidity.v1beta1.MsgLimitOrder"},
+				[]string{"/cosmos.bank.v1beta1.MsgSend"},
 				[]string{},
 			),
 			ExpErr: sdkerrors.Wrapf(errors.ErrNotFound, "gas tank with id %d not found", 12),
@@ -292,7 +292,7 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 			Name: "error unauthorized provider",
 			Msg: *types.NewMsgUpdateGasTankConfig(
 				tank1.Id, provider2, sdk.NewInt(1000), 10, sdk.NewInt(1000000),
-				[]string{"/aib.liquidity.v1beta1.MsgLimitOrder"},
+				[]string{"/cosmos.bank.v1beta1.MsgSend"},
 				[]string{},
 			),
 			ExpErr: sdkerrors.Wrapf(errors.ErrUnauthorized, "unauthorized provider"),
@@ -301,7 +301,7 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 			Name: "error inactive tank",
 			Msg: *types.NewMsgUpdateGasTankConfig(
 				inactiveTank.Id, provider1, sdk.NewInt(1000), 10, sdk.NewInt(1000000),
-				[]string{"/aib.liquidity.v1beta1.MsgLimitOrder"},
+				[]string{"/cosmos.bank.v1beta1.MsgSend"},
 				[]string{},
 			),
 			ExpErr: sdkerrors.Wrapf(errors.ErrInvalidRequest, "gas tank inactive"),
@@ -310,7 +310,7 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 			Name: "error max tx count consumer is 0",
 			Msg: *types.NewMsgUpdateGasTankConfig(
 				tank1.Id, provider1, sdk.NewInt(1000), 0, sdk.NewInt(1000000),
-				[]string{"/aib.liquidity.v1beta1.MsgLimitOrder"},
+				[]string{"/cosmos.bank.v1beta1.MsgSend"},
 				[]string{},
 			),
 			ExpErr: sdkerrors.Wrap(types.ErrorInvalidrequest, "max tx count per consumer must not be 0"),
@@ -319,7 +319,7 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 			Name: "error max fee usage per tx should be positive",
 			Msg: *types.NewMsgUpdateGasTankConfig(
 				tank1.Id, provider1, sdk.ZeroInt(), 10, sdk.NewInt(1000000),
-				[]string{"/aib.liquidity.v1beta1.MsgLimitOrder"},
+				[]string{"/cosmos.bank.v1beta1.MsgSend"},
 				[]string{},
 			),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "max_fee_usage_per_tx should be positive"),
@@ -328,7 +328,7 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 			Name: "error max fee usage per consumer should be positive",
 			Msg: *types.NewMsgUpdateGasTankConfig(
 				tank1.Id, provider1, sdk.NewInt(1000), 10, sdk.ZeroInt(),
-				[]string{"/aib.liquidity.v1beta1.MsgLimitOrder"},
+				[]string{"/cosmos.bank.v1beta1.MsgSend"},
 				[]string{},
 			),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "max_fee_usage_per_consumer should be positive"),
@@ -355,7 +355,7 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 			Name: "error invalid contract address",
 			Msg: *types.NewMsgUpdateGasTankConfig(
 				tank1.Id, provider1, sdk.NewInt(1000), 10, sdk.NewInt(1000000),
-				[]string{"/aib.liquidity.v1beta1.MsgLimitOrder"},
+				[]string{"/cosmos.bank.v1beta1.MsgSend"},
 				[]string{"invalid contract address"},
 			),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "invalid contract address - %s", "invalid contract address"),
@@ -364,7 +364,7 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 			Name: "success tank configs updated",
 			Msg: *types.NewMsgUpdateGasTankConfig(
 				tank1.Id, provider1, sdk.NewInt(25000), 120, sdk.NewInt(150000000),
-				[]string{"/aib.liquidity.v1beta1.MsgMarketOrder"},
+				[]string{"/cosmos.bank.v1beta1.MsgMultiSend"},
 				nil,
 			),
 			ExpErr: nil,
@@ -430,12 +430,12 @@ func (s *KeeperTestSuite) TestUpdateGasTankConfig() {
 
 func (s *KeeperTestSuite) TestBlockConsumer() {
 	provider1 := s.addr(1)
-	tank1 := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+	tank1 := s.CreateNewGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 	actors := []sdk.AccAddress{s.addr(2), s.addr(3), s.addr(4)}
 	s.keeper.AuthorizeActors(s.ctx, types.NewMsgAuthorizeActors(tank1.Id, provider1, actors))
 
 	provider2 := s.addr(5)
-	inactiveTank := s.CreateNewGasTank(provider2, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgCreatePool"}, []string{}, "100000000ucmdx")
+	inactiveTank := s.CreateNewGasTank(provider2, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 	inactiveTank.IsActive = false
 	s.keeper.SetGasTank(s.ctx, inactiveTank)
 
@@ -536,12 +536,12 @@ func (s *KeeperTestSuite) TestBlockConsumer() {
 
 func (s *KeeperTestSuite) TestUnblockConsumer() {
 	provider1 := s.addr(1)
-	tank1 := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+	tank1 := s.CreateNewGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 	actors := []sdk.AccAddress{s.addr(2), s.addr(3), s.addr(4)}
 	s.keeper.AuthorizeActors(s.ctx, types.NewMsgAuthorizeActors(tank1.Id, provider1, actors))
 
 	provider2 := s.addr(5)
-	inactiveTank := s.CreateNewGasTank(provider2, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgCreatePool"}, []string{}, "100000000ucmdx")
+	inactiveTank := s.CreateNewGasTank(provider2, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 	inactiveTank.IsActive = false
 	s.keeper.SetGasTank(s.ctx, inactiveTank)
 
@@ -663,12 +663,12 @@ func (s *KeeperTestSuite) TestUnblockConsumer() {
 
 func (s *KeeperTestSuite) TestUpdateGasConsumerLimit() {
 	provider1 := s.addr(1)
-	tank1 := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+	tank1 := s.CreateNewGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 	actors := []sdk.AccAddress{s.addr(2), s.addr(3), s.addr(4)}
 	s.keeper.AuthorizeActors(s.ctx, types.NewMsgAuthorizeActors(tank1.Id, provider1, actors))
 
 	provider2 := s.addr(5)
-	inactiveTank := s.CreateNewGasTank(provider2, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgCreatePool"}, []string{}, "100000000ucmdx")
+	inactiveTank := s.CreateNewGasTank(provider2, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 	inactiveTank.IsActive = false
 	s.keeper.SetGasTank(s.ctx, inactiveTank)
 
@@ -808,7 +808,7 @@ func (s *KeeperTestSuite) TestUpdateGasConsumerLimit() {
 
 func (s *KeeperTestSuite) TestConsumerUpdateWhenGasTankUpdate() {
 	provider1 := s.addr(1)
-	tank1 := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+	tank1 := s.CreateNewGasTank(provider1, "aaib", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000aaib")
 
 	// unblocking consumer, so that a new consumer can be created with default values
 	consumer1 := s.addr(11)
@@ -839,7 +839,7 @@ func (s *KeeperTestSuite) TestConsumerUpdateWhenGasTankUpdate() {
 	s.Require().Equal(sdk.ZeroInt(), c.Consumptions[0].TotalFeesConsumed)
 
 	_, err = s.keeper.UpdateGasTankConfig(s.ctx, types.NewMsgUpdateGasTankConfig(
-		tank1.Id, provider1, sdk.NewInt(33000), 250, sdk.NewInt(120000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{},
+		tank1.Id, provider1, sdk.NewInt(33000), 250, sdk.NewInt(120000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{},
 	))
 	s.Require().NoError(err)
 
@@ -887,7 +887,7 @@ func (s *KeeperTestSuite) TestConsumerUpdateWhenGasTankUpdate() {
 	s.Require().Equal(sdk.NewInt(9075412), c.Consumptions[0].TotalFeeConsumptionAllowed)
 
 	_, err = s.keeper.UpdateGasTankConfig(s.ctx, types.NewMsgUpdateGasTankConfig(
-		tank1.Id, provider1, sdk.NewInt(34000), 150, sdk.NewInt(110000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{},
+		tank1.Id, provider1, sdk.NewInt(34000), 150, sdk.NewInt(110000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{},
 	))
 	s.Require().NoError(err)
 

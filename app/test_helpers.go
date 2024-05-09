@@ -60,8 +60,6 @@ func SetAccountAddressPrefixes() {
 	config.SetBech32PrefixForAccount(AccountAddressPrefix, AccountPubKeyPrefix)
 	config.SetBech32PrefixForValidator(ValidatorAddressPrefix, ValidatorPubKeyPrefix)
 	config.SetBech32PrefixForConsensusNode(ConsensusNodeAddressPrefix, ConsensusNodePubKeyPrefix)
-
-	config.Seal()
 }
 
 func setup(_ *testing.T, withGenesis bool) (*App, GenesisState) {

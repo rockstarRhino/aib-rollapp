@@ -46,9 +46,9 @@ func NewCreateGasTankCmd() *cobra.Command {
 		Long: strings.TrimSpace(
 			fmt.Sprintf(`Create a gas tank.
 Example:
-$ %s tx %s create-gas-tank ucmdx 25000 200 5000000 /aib.liquidity.v1beta1.MsgLimitOrder,/aib.liquidity.v1beta1.MsgMarketOrder aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3,aib1zh9gzcw3j5jd53ulfjx9lj4088plur7xy3jayndwr7jxrdqhg7jqqsfqzx 10000000000ucmdx --from mykey
-$ %s tx %s create-gas-tank ucmdx 25000 200 5000000 /aib.liquidity.v1beta1.MsgLimitOrder aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3 10000000000ucmdx --from mykey
-$ %s tx %s create-gas-tank ucmdx 25000 200 5000000 /aib.liquidity.v1beta1.MsgLimitOrder "" 10000000000ucmdx --from mykey
+$ %s tx %s create-gas-tank aaib 25000 200 5000000 /cosmos.bank.v1beta1.MsgSend,/cosmos.bank.v1beta1.MsgSend aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3,aib1zh9gzcw3j5jd53ulfjx9lj4088plur7xy3jayndwr7jxrdqhg7jqqsfqzx 10000000000aaib --from mykey
+$ %s tx %s create-gas-tank aaib 25000 200 5000000 /cosmos.bank.v1beta1.MsgSend aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3 10000000000aaib --from mykey
+$ %s tx %s create-gas-tank aaib 25000 200 5000000 /cosmos.bank.v1beta1.MsgSend "" 10000000000aaib --from mykey
 `,
 				version.AppName, types.ModuleName,
 				version.AppName, types.ModuleName,
@@ -223,9 +223,9 @@ func NewUpdateGasTankConfigsCmd() *cobra.Command {
 		Long: strings.TrimSpace(
 			fmt.Sprintf(`Update configs of the gas tank.
 Example:
-$ %s tx %s update-gas-tank-config 1 25000 200 5000000 /aib.liquidity.v1beta1.MsgLimitOrder,/aib.liquidity.v1beta1.MsgMarketOrder aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3,aib1zh9gzcw3j5jd53ulfjx9lj4088plur7xy3jayndwr7jxrdqhg7jqqsfqzx --from mykey
-$ %s tx %s update-gas-tank-config 1 25000 200 5000000 /aib.liquidity.v1beta1.MsgLimitOrder aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3 --from mykey
-$ %s tx %s update-gas-tank-config 1 25000 200 5000000 /aib.liquidity.v1beta1.MsgLimitOrder "" --from mykey
+$ %s tx %s update-gas-tank-config 1 25000 200 5000000 /cosmos.bank.v1beta1.MsgSend,/cosmos.bank.v1beta1.MsgSend aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3,aib1zh9gzcw3j5jd53ulfjx9lj4088plur7xy3jayndwr7jxrdqhg7jqqsfqzx --from mykey
+$ %s tx %s update-gas-tank-config 1 25000 200 5000000 /cosmos.bank.v1beta1.MsgSend aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3 --from mykey
+$ %s tx %s update-gas-tank-config 1 25000 200 5000000 /cosmos.bank.v1beta1.MsgSend "" --from mykey
 `,
 				version.AppName, types.ModuleName,
 				version.AppName, types.ModuleName,

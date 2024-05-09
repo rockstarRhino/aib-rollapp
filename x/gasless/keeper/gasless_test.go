@@ -17,7 +17,7 @@ func (s *KeeperTestSuite) TestCreateGasTank() {
 	provider1 := s.addr(1)
 	provider1Tanks := []types.GasTank{}
 	for i := 0; i < int(params.TankCreationLimit); i++ {
-		tank := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, "100000000ucmdx")
+		tank := s.CreateNewGasTank(provider1, "ucmdx", sdkmath.NewInt(1000), 10, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, "100000000ucmdx")
 		provider1Tanks = append(provider1Tanks, tank)
 	}
 
@@ -58,12 +58,12 @@ func (s *KeeperTestSuite) TestCreateGasTank() {
 		},
 		{
 			Name:   "error deposit samller than required min deposit",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, sdk.NewCoin("ucmdx", sdk.NewInt(100))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, sdk.NewCoin("ucmdx", sdk.NewInt(100))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "minimum required deposit is %s", params.MinimumGasDeposit[0].String()),
 		},
 		{
 			Name:   "error fee denom not allowed",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "uatom", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, sdk.NewCoin("uatom", sdk.NewInt(100))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "uatom", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, sdk.NewCoin("uatom", sdk.NewInt(100))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, " fee denom %s not allowed ", "uatom"),
 		},
 		{
@@ -73,12 +73,12 @@ func (s *KeeperTestSuite) TestCreateGasTank() {
 		},
 		{
 			Name:   "error invalid contract address",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{"aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
 			ExpErr: sdkerrors.Wrapf(types.ErrorInvalidrequest, "invalid contract address - %s", "aib1qa4hswlcjmttulj0q9qa46jf64f93pecl6tydcsjldfe0hy5ju0s7r3hn3"),
 		},
 		{
 			Name:   "success gas tank creation",
-			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/aib.liquidity.v1beta1.MsgLimitOrder"}, []string{}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
+			Msg:    *types.NewMsgCreateGasTank(s.addr(2), "ucmdx", sdkmath.NewInt(123), 123, sdkmath.NewInt(1000000), []string{"/cosmos.bank.v1beta1.MsgSend"}, []string{}, sdk.NewCoin("ucmdx", sdk.NewInt(100000000))),
 			ExpErr: nil,
 		},
 	}

@@ -38,18 +38,18 @@ var _ wasmkeeper.Messenger = (*CustomMessenger)(nil)
 func (m *CustomMessenger) DispatchMsg(ctx sdk.Context, contractAddr sdk.AccAddress, contractIBCPortID string, msg wasmvmtypes.CosmosMsg) ([]sdk.Event, [][]byte, error) {
 	if msg.Custom != nil {
 
-		var aibMessages bindings.AibMessages
-		if err := json.Unmarshal(msg.Custom, &aibMessages); err != nil {
+		var rollAppMessages bindings.RollAppMessages
+		if err := json.Unmarshal(msg.Custom, &rollAppMessages); err != nil {
 			return nil, nil, sdkerrors.Wrap(err, "aib dispatch msg error")
 		}
 
-		if aibMessages.MsgMintToken != nil {
+		if rollAppMessages.MsgMintToken != nil {
 
-			return m.mintToken(ctx, contractAddr, aibMessages.MsgMintToken)
+			return m.mintToken(ctx, contractAddr, rollAppMessages.MsgMintToken)
 		}
-		if aibMessages.MsgBurnToken != nil {
+		if rollAppMessages.MsgBurnToken != nil {
 
-			return m.burnToken(ctx, contractAddr, aibMessages.MsgBurnToken)
+			return m.burnToken(ctx, contractAddr, rollAppMessages.MsgBurnToken)
 		}
 	}
 	return m.wrapped.DispatchMsg(ctx, contractAddr, contractIBCPortID, msg)

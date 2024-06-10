@@ -2,7 +2,7 @@ package bindings
 
 import "cosmossdk.io/math"
 
-type AibMessages struct {
+type RollAppMessages struct {
 	MsgMintToken *MsgMintToken `json:"msg_mint_token,omitempty"`
 	MsgBurnToken *MsgBurnToken `json:"msg_burn_token,omitempty"`
 }

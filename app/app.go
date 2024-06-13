@@ -214,7 +214,7 @@ var (
 		hubgentypes.ModuleName:         {authtypes.Burner},
 		crontypes.ModuleName:           nil,
 		gaslesstypes.ModuleName:        nil,
-		AibModule:    					{authtypes.Minter, authtypes.Burner},,
+		AibModule:       {authtypes.Minter, authtypes.Burner},
 	}
 )
 

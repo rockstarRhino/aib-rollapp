@@ -82,7 +82,13 @@ func mint(bankKeeper bankkeeper.Keeper, ctx sdk.Context, contractAddr string,
 		return err
 	}
 
-	err = bankKeeper.SendCoinsFromModuleToAccount(ctx, moduleName, sdk.AccAddress(msgMintToken.MintToAddress), mintCoin)
+	mintAddress, err1 := sdk.AccAddressFromBech32(msgMintToken.MintToAddress)
+
+	if err1 != nil {
+		return err1
+	}
+
+	err = bankKeeper.SendCoinsFromModuleToAccount(ctx, moduleName, mintAddress, mintCoin)
 	if err != nil {
 		return err
 	}
@@ -112,7 +118,13 @@ func burn(bankKeeper bankkeeper.Keeper, ctx sdk.Context, contractAddr string,
 ) error {
 
 	burnCoin := sdk.NewCoins(sdk.NewCoin(msgBurnToken.Denom, msgBurnToken.Amount))
-	err := bankKeeper.SendCoinsFromAccountToModule(ctx, sdk.AccAddress(msgBurnToken.BurnFromAddress), moduleName, burnCoin)
+
+	burnAddress, err := sdk.AccAddressFromBech32(msgBurnToken.BurnFromAddress)
+	if err != nil {
+		return err
+	}
+
+	err = bankKeeper.SendCoinsFromAccountToModule(ctx, burnAddress, moduleName, burnCoin)
 	if err != nil {
 		return err
 	}
